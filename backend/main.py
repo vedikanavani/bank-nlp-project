@@ -53,3 +53,7 @@ def predict(req: Request):
     X_new = vectorizer.transform([req.text])
     pred = model.predict(X_new)
     return {"prediction": pred[0]}
+
+@app.get("/")
+def home():
+    return {"status": "ok"}
