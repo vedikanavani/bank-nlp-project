@@ -44,7 +44,7 @@ export default function Home() {
         </h1>
 
         <p className="description">
-          This tool analyzes uses a logistic regression model to classify statements as either
+          This tool uses a logistic regression model to classify statements as either
           hawkish or dovish based on the underlying monetary policy stance. A hawkish
           tone typically signals concerns about inflation and a tendency toward tighter
           monetary policy. A dovish tone reflects concern for economic growth and employment, often indicating a 
