@@ -1,5 +1,4 @@
 "use client";
-
 import { useState } from "react";
 
 export default function Home() {
@@ -10,7 +9,6 @@ export default function Home() {
   const handlePredict = async () => {
     setLoading(true);
     setResult("");
-
     try {
       const res = await fetch("https://bank-nlp-project.onrender.com/predict", {
         method: "POST",
@@ -19,12 +17,10 @@ export default function Home() {
         },
         body: JSON.stringify({ text }),
       });
-
       if (!res.ok) {
         const errText = await res.text();
         throw new Error(errText);
       }
-
       const data = await res.json();
       setResult(data.prediction);
     } catch (err) {
@@ -36,22 +32,18 @@ export default function Home() {
   };
 
   return (
-    <main className="container">
-      <div className="card">
-
-        <h1 className="title">
-          Monetary Policy Stance Classifier
-        </h1>
-
+    <main className="wrapper">
+      <div className="content">
+        <h1 className="title">Monetary Policy Stance Classifier</h1>
         <p className="description">
-          This tool uses a logistic regression model to classify statements as hawkish,
-          dovish or neutral based on the underlying monetary policy stance. A hawkish
-          tone typically signals concerns about inflation and a tendency toward tighter
-          monetary policy. A dovish tone reflects concern for economic growth and employment, often indicating a 
-          preference for lower interest rates or accommodative policy. The model is trained on data available 
-          from the GeorgiaTech Financial Services Innovation Lab. 
+          This tool uses a logistic regression model to classify statements as
+          hawkish, dovish or neutral based on the underlying monetary policy
+          stance. A hawkish tone typically signals concerns about inflation and a
+          tendency toward tighter monetary policy. A dovish tone reflects concern
+          for economic growth and employment, often indicating a preference for
+          lower interest rates or accommodative policy. The model is trained on
+          data available from the GeorgiaTech Financial Services Innovation Lab.
         </p>
-
         <div className="inputWrapper">
           <input
             className="input"
@@ -60,104 +52,91 @@ export default function Home() {
             placeholder="Type or paste a central bank statement..."
           />
         </div>
-
         <button className="button" onClick={handlePredict}>
           {loading ? "Analyzing..." : "Predict"}
         </button>
-
         {result && (
           <div className="resultBox">
             <h2>Result</h2>
             <p>{result}</p>
           </div>
         )}
-
       </div>
 
       <style jsx>{`
-        .container {
-          min-height: 100vh;
+        .wrapper {
+          position: fixed;
+          inset: 0;
           display: flex;
           justify-content: center;
           align-items: center;
-          background: #f5f0e6;
-          font-family: Inter, system-ui, sans-serif;
-          padding: 20px;
+          background-image: url("/bg.jpg");
+          background-size: cover;
+          background-position: center;
+          background-repeat: no-repeat;
         }
-
-        .card {
+        .content {
+          max-width: 900px;
           width: 100%;
-          max-width: 800px;
           text-align: center;
         }
-
         .title {
-          font-size: 42px;
-          font-weight: 600;
-          margin-bottom: 12px;
+          font-size: 56px;
+          font-weight: 700;
           color: #1f1f1f;
+          margin-bottom: 20px;
         }
-
         .description {
-          font-size: 14px;
-          line-height: 1.6;
-          color: #444;
-          margin-bottom: 30px;
+          font-size: 16px;
+          line-height: 1.8;
+          color: #333;
+          margin-bottom: 35px;
         }
-
         .inputWrapper {
           display: flex;
           justify-content: center;
-          margin-bottom: 15px;
+          margin-bottom: 20px;
         }
-
         .input {
           width: 100%;
-          padding: 16px 18px;
+          max-width: 700px;
+          padding: 18px;
           font-size: 16px;
           border-radius: 14px;
-          border: 1px solid #ddd;
+          border: 1px solid #ccc;
+          background: rgba(255, 255, 255, 0.85);
           outline: none;
-          background: white;
         }
-
         .input:focus {
-          border-color: #999;
+          border-color: #777;
         }
-
         .button {
-          padding: 12px 22px;
+          padding: 14px 28px;
           font-size: 16px;
           border: none;
           border-radius: 12px;
           cursor: pointer;
           background: #1f1f1f;
           color: white;
-          margin-top: 10px;
         }
-
         .button:hover {
           opacity: 0.9;
         }
-
         .resultBox {
           margin-top: 25px;
-          padding: 18px;
+          display: inline-block;
+          padding: 16px 24px;
           border-radius: 12px;
-          background: white;
-          border: 1px solid #ddd;
-          color: #111;
+          background: rgba(255, 255, 255, 0.9);
         }
-
         .resultBox h2 {
-          color: #1f1f1f;
           margin-bottom: 8px;
+          color: #1f1f1f;
         }
-
         .resultBox p {
-          color: #111;
           font-size: 18px;
           font-weight: 600;
+          color: #111;
         }
       `}</style>
     </main>
