@@ -1,5 +1,12 @@
 "use client";
+
 import { useState } from "react";
+import { Cormorant_Garamond } from "next/font/google";
+
+const cormorant = Cormorant_Garamond({
+  subsets: ["latin"],
+  weight: ["300", "400", "500", "600", "700"],
+});
 
 export default function Home() {
   const [text, setText] = useState("");
@@ -9,6 +16,7 @@ export default function Home() {
   const handlePredict = async () => {
     setLoading(true);
     setResult("");
+
     try {
       const res = await fetch("https://bank-nlp-project.onrender.com/predict", {
         method: "POST",
@@ -17,10 +25,12 @@ export default function Home() {
         },
         body: JSON.stringify({ text }),
       });
+
       if (!res.ok) {
         const errText = await res.text();
         throw new Error(errText);
       }
+
       const data = await res.json();
       setResult(data.prediction);
     } catch (err) {
@@ -32,9 +42,10 @@ export default function Home() {
   };
 
   return (
-    <main className="wrapper">
+    <main className={`wrapper ${cormorant.className}`}>
       <div className="content">
         <h1 className="title">Monetary Policy Stance Classifier</h1>
+
         <p className="description">
           This tool uses a logistic regression model to classify statements as
           hawkish, dovish or neutral based on the underlying monetary policy
@@ -44,6 +55,7 @@ export default function Home() {
           lower interest rates or accommodative policy. The model is trained on
           data available from the GeorgiaTech Financial Services Innovation Lab.
         </p>
+
         <div className="inputWrapper">
           <input
             className="input"
@@ -52,9 +64,11 @@ export default function Home() {
             placeholder="Type or paste a central bank statement..."
           />
         </div>
+
         <button className="button" onClick={handlePredict}>
           {loading ? "Analyzing..." : "Predict"}
         </button>
+
         {result && (
           <div className="resultBox">
             <h2>Result</h2>
@@ -75,28 +89,34 @@ export default function Home() {
           background-position: center;
           background-repeat: no-repeat;
         }
+
         .content {
           max-width: 900px;
           width: 100%;
           text-align: center;
         }
+
         .title {
-          font-size: 56px;
-          font-weight: 700;
+          font-size: 64px;
+          font-weight: 600;
+          letter-spacing: 0.5px;
           color: #1f1f1f;
           margin-bottom: 20px;
         }
+
         .description {
-          font-size: 16px;
-          line-height: 1.8;
+          font-size: 18px;
+          line-height: 1.9;
           color: #333;
           margin-bottom: 35px;
         }
+
         .inputWrapper {
           display: flex;
           justify-content: center;
           margin-bottom: 20px;
         }
+
         .input {
           width: 100%;
           max-width: 700px;
@@ -107,9 +127,11 @@ export default function Home() {
           background: rgba(255, 255, 255, 0.85);
           outline: none;
         }
+
         .input:focus {
           border-color: #777;
         }
+
         .button {
           padding: 14px 28px;
           font-size: 16px;
@@ -119,9 +141,11 @@ export default function Home() {
           background: #1f1f1f;
           color: white;
         }
+
         .button:hover {
           opacity: 0.9;
         }
+
         .resultBox {
           margin-top: 25px;
           display: inline-block;
@@ -129,10 +153,12 @@ export default function Home() {
           border-radius: 12px;
           background: rgba(255, 255, 255, 0.9);
         }
+
         .resultBox h2 {
           margin-bottom: 8px;
           color: #1f1f1f;
         }
+
         .resultBox p {
           font-size: 18px;
           font-weight: 600;
